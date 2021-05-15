@@ -463,7 +463,39 @@ def rental_expire():
 
   write_file("carlist.txt", carlist)
   return
-        
+
+def rental_history():
+  clear()
+  userlist = read_file("userlist.txt")
+
+  for user in userlist:
+    if user["username"] == current_user[0]["username"]:
+      if len(user["rental_history"]) == 0:
+        print("\nStart placing order today for exclusive discounts!\n")
+        return input("<Enter> to return back to home page...")
+
+      for rent in user["rental_history"]:
+        brand = rent["brand"].capitalize()
+        model = rent["model"].capitalize()
+        year = rent["year"]
+        price = rent["price"]
+        start_date = rent["rent_by"]["start_date"]
+        end_date = rent["rent_by"]["end_date"]
+        duration = rent["rent_by"]["duration"]
+
+        total_price = float(price) * int(duration)
+
+        print("-"*20)
+        print(f"\nBooked on {start_date} for the duration of {duration} days\n")
+        print(f"Ends by {end_date}\n")
+        print(f"Vehicle: {brand} {model}, {year}\n")
+        print(f"Total price deducted from wallet: -RM{total_price}\n")
+        print("-"*20, "\n")
+      break
+  return input("<Enter> to return back to home page...")
+
+
+
 # USER INTERFACE
 def main():
   clear()
@@ -521,11 +553,16 @@ def main():
     user_option = input("Please enter your choice: ")
 
     while user_option == "4":
-      clear()
-      instruction = modify_wallet()
+      end = modify_wallet()
 
-      if instruction == 0:
-        break      
+      if end == 0:
+        break 
+
+    while user_option == "3":
+      end = rental_history()
+
+      if end == "":
+        break
 
     while user_option == "2":
       personal_action = display_user()
@@ -571,7 +608,6 @@ def main():
         if vehicle_id == "":
           clear()
           break   
-
 
     if user_option == "0":
       main() 
