@@ -17,7 +17,16 @@ alphabet = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'
 
 # js = json.loads(data)
 
-current_user = []
+current_user = [
+  {
+    "email": "admin@mail.com",
+    "isAdmin": True,
+    "password": "123456",
+    "rental_history": [],
+    "username": "admin", 
+    "wallet": 100
+  }
+]
 default_salt = 10 % 26
 
 def encryption(text, salt, direction):
@@ -181,6 +190,7 @@ def car_details(payload, brand):
   brand_selected = brand[payload]
   model = []
 
+
   for car in cars:
     if car["brand"] == brand_selected:
       model.append(car)
@@ -216,6 +226,38 @@ def car_details(payload, brand):
 
   return model
 
+def selected_details(payload, brand):
+  cars = read_file("carlist.txt")
+  brand_selected = brand[payload]
+  models = []
+
+  for car in cars:
+    if car["brand"] == brand_selected:
+      if car["rental_status"] == False:
+        models.append(car)
+
+  clear()
+  # display selected brand car model
+  for i in models:
+    id = i["id"]
+    brand = i["brand"]
+    model = i["model"]
+    year = i["year"]
+    price = i["price"]
+    availability = i["rental_status"]
+
+    print("-"*20)
+    print(f"vehicle id: {id}")
+    print(f"vehicle: {brand} {model}")
+    print(f"year: {year}")
+    print(f"pricing: RM{price}")
+    if not availability:
+      print(f"availability: yes")
+    print("-"*20)
+    print("\n")
+
+  models.clear()
+  return input("<Enter> to return...")
 
 # ADMIN INTERFACE
 def add_car():
@@ -250,7 +292,6 @@ def add_car():
 
   write_file("carlist.txt", carlist)
   return input("Car has been successfully added to the system... <Enter> to return:")
-
 
 def modify_car(id):
   clear()
@@ -291,7 +332,7 @@ def modify_car(id):
     "message": "Car's details has been modified successfully"
   }
 
-def select_car():
+def select_car(callback):
   clear()
   print("-"*20)
   print("SCRS Vehicle Management")
@@ -311,7 +352,7 @@ def select_car():
 
     while len(vehicle_id) > 0:
       clear()
-      status = modify_car(int(vehicle_id))
+      status = callback(int(vehicle_id))
 
       if status == "":
         break
@@ -331,7 +372,83 @@ def select_car():
       clear()
       break   
 
+def rented_out(carlist):
+  print("CARS ON TRANSIT RECORDS\n")
+  for car in carlist:
+    if car["rental_status"]:
+      if car["rent_by"]:
+        booking_details = car["rent_by"]
+        brand = car["brand"]
+        model = car["model"]
+        year = car["year"]
+        price = car["price"]
+        start_date = booking_details["start_date"]
+        str_date = start_date[0:11]
+        end_date = booking_details["end_date"]
+        str_enddate = end_date[0:11]
+        username = booking_details["username"]
+        duration = booking_details["duration"]
 
+        total_price = int(duration) * float(price)
+
+        print("-"*20)
+        print(f"\nBooked on {str_date} for the duration of {duration} days\n")
+        print(f"Ends by {str_enddate}\n")
+        print(f"Vehicle: {brand} {model}, {year}\n")
+        print(f"Total price deducted from wallet: -RM{total_price}\n")
+        print(f"Rented by {username}")
+        print("-"*20, "\n")
+
+  return input("<Enter> to go back...")
+
+def rent_available():
+  clear()
+  print("-"*20)
+  print("SCRS Vehicle Management")
+  print("-"*20, "\n")
+
+  action = display_brand()
+
+  if action["payload"] == "0":
+    clear()
+    return ""
+
+  while action["payload"] != "0":
+    clear()
+    payload = int(action["payload"]) - 1
+    brand = action["brand"]
+    done = selected_details(payload, brand)
+    
+    if done == "":
+      break
+      
+
+def rental_records():
+  carlist = read_file("carlist.txt")
+  clear()
+  print("-"*20)
+  print("SCRS Vehicle Management")
+  print("-"*20, "\n")
+
+  print("1. Cars in transit\n2. Cars available for Rent\n3. Customer Bookings\n\n0.Back")
+  admin_option = input("Please enter your choice: ")
+
+  if admin_option == "0":
+    return ""
+
+  while admin_option == "1":
+    clear()
+    end = rented_out(carlist)
+
+    if end == "":
+      break     
+
+  while admin_option == "2":
+    clear()
+    end = rent_available()
+    
+    if end == "":
+      break 
 
 
 # CUSTOMER INTERFACE
@@ -596,16 +713,19 @@ def rental_history():
         start_date = rent["rent_by"]["start_date"]
         end_date = rent["rent_by"]["end_date"]
         duration = rent["rent_by"]["duration"]
+        str_date = start_date[0:11]
+        str_enddate = end_date[0:11]
 
         total_price = float(price) * int(duration)
 
         print("-"*20)
-        print(f"\nBooked on {start_date} for the duration of {duration} days\n")
-        print(f"Ends by {end_date}\n")
+        print(f"\nBooked on {str_date} for the duration of {duration} days\n")
+        print(f"Ends by {str_enddate}\n")
         print(f"Vehicle: {brand} {model}, {year}\n")
         print(f"Total price deducted from wallet: -RM{total_price}\n")
         print("-"*20, "\n")
       break
+
   return input("<Enter> to return back to home page...")
 
 # USER INTERFACE
@@ -659,7 +779,11 @@ def main():
       break
 
     while admin_option == "4":
-      break
+      clear()
+      data = rental_records()
+
+      if data == "":
+        break
 
     while admin_option == "3":
       personal_action = display_user()
@@ -672,7 +796,7 @@ def main():
       main()
 
     while admin_option == "2":
-      data = select_car()
+      data = select_car(modify_car)
 
       if data == "":
         break
