@@ -4,9 +4,6 @@ import json
 from datetime import timedelta  
 clear = lambda: os.system("cls")
 
-# "start_date": datetime.datetime(2020, 5, 17),
-# "end_date": datetime.datetime(2020, 5, 17) + timedelta(days=2) 
-
 alphabet = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
             'u', 'v', 'w', 'x', 'y', 'z', ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
             'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -46,7 +43,7 @@ def read_file(filename):
 # write txt files
 def write_file(filename, details):
   with open(filename, "w") as f:
-    f.write(json.dumps(details))
+    f.write(json.dumps(details, indent=4, sort_keys=True, default=str))
 
 # user info validation
 def validation(username, password, confirm_password): 
@@ -198,7 +195,6 @@ def car_details(payload, brand):
     availability = i["rental_status"]
     rent_by = i["rent_by"]
 
-    print("\n")
     print("-"*20)
     print(f"vehicle id: {id}")
     print(f"vehicle: {brand} {model}")
@@ -211,10 +207,14 @@ def car_details(payload, brand):
     if rent_by:
       if rent_by["username"]:
         username = rent_by["username"]
-        print(f"currently rented by Mr/Mrs {username}")
+        start_date = rent_by["start_date"]
+        duration = rent_by["duration"]
+        str_date = start_date[0:11]
+        print(f"currently rented by Mr/Mrs {username}\nRented since {str_date} for {duration} days")
     print("-"*20)
     print("\n")
-  return
+
+  return model
 
 
 # ADMIN INTERFACE
@@ -231,10 +231,19 @@ def delete_user():
   
   return userlist
 
+def delete_car(car_brand): 
+  carlist = read_file("carlist.txt")
+
+  for i in range(len(carlist)):
+    if carlist[i]["brand"] == car_brand:
+      del carlist[i]
+      break
+  
+  return carlist
+
 def display_user():
   clear()
   username = current_user[0]["username"]
-  email = current_user[0]["email"]
 
   print("Update Personal Information\n")
   print(f"1. Username: {username}\n2. Password\n\n0. Go Back\n")
@@ -346,9 +355,93 @@ def modify_wallet():
     current_user[0] = updated_user
     modify_wallet()
 
+def rent_car(id):
+  carlist = read_file("carlist.txt")
+  userlist = read_file("userlist.txt")
+  chosen_car = []
+
+  for car in carlist:
+    if car["id"] == id:
+      if car["rental_status"]:
+        return {
+          "err": True,
+          "message": "Car is already been taken by someone"
+        }
+
+      chosen_car.append(car)
+      brand = car['brand'].capitalize()
+      model = car['model'].capitalize()
+      year = car['year']
+      price = "{:.2f}".format(car['price'])
+
+      print(f"You have selected {brand} {model}, {year}")
+      print(f"Rental price for this product will be fixed at the rate of RM{price} per day\n")
+
+      confirmation = input("Do you want to confirm order? (yes/No): ")
+      if confirmation.lower() == "no":
+        return
+      duration = input("How many days would you like to rent? ")
+
+      while confirmation.lower() == "yes":
+        total_price = float(price) * int(duration)
+
+        for user in userlist:
+          if user["username"] == current_user[0]["username"]:
+            if user["wallet"] < total_price:
+              return {
+                "err": True,
+                "message": "Insufficient balance, you are broke!"
+              } 
+
+            reset_user = delete_user()
+            reset_car = delete_car(brand)
+
+            rental_history = current_user[0]["rental_history"]
+
+            updated_car = {
+              "id": id, 
+              "brand": brand, 
+              "model": model, 
+              "year": year, 
+              "price": price, 
+              "rental_status": True, 
+              "rent_by": {
+                "username": "eugene", 
+                "duration": duration, 
+                "start_date": datetime.datetime.now(), 
+                "end_date": datetime.datetime.now() + timedelta(days=int(duration)),
+              }
+            }
+
+            rental_history.append(updated_car)
+
+            updated_user = {
+              "username": current_user[0]["username"], 
+              "email": current_user[0]["email"], 
+              "password": current_user[0]["password"], 
+              "wallet": int(current_user[0]["wallet"]) - int(total_price), 
+              "rental_history": rental_history,
+              "isAdmin": current_user[0]["isAdmin"]
+            }
+
+            reset_user.append(updated_user)
+            reset_car.append(updated_car)
+            write_file("carlist.txt", reset_car)
+            write_file("userlist.txt", reset_user )
+            current_user[0] = updated_user
+            
+            print(f"\nYour booking order for {brand} {model}, {year} for the duration of {duration} days has been confirmed\nEnjoy your ride!")
+
+            end = input("Press Enter to return back to home page!")
+            return end
+        break
+
+# def rental_expire():
+
 
 # USER INTERFACE
 def main():
+  clear()
   print('-'*20)
   print('Super Car Rental Service (SCRS)')
   print('-'*20)
@@ -381,7 +474,7 @@ def main():
         car_details(payload, brand)
         input("Press Enter to quit: ")
         clear()
-        break        
+        break       
       
     if option == "0":
       break
@@ -418,9 +511,46 @@ def main():
       clear()
       print(msg, "\n")
       main()
+    
+    while user_option == "1":
+      clear()
+      action = display_brand()
+
+      if action["payload"] == "0":
+        clear()
+        break
+
+      while action["payload"] != "0":
+        payload = int(action["payload"]) - 1
+        brand = action["brand"]
+        car_details(payload, brand)
+        vehicle_id = input("Select vehicle ID to rent or <Enter> to go back: ")
+
+        while len(vehicle_id) > 0:
+          clear()
+          status = rent_car(int(vehicle_id))
+
+          if status == "":
+            break
+
+          try:
+            if status["err"]:
+              print(status["message"])   
+              retry = input("Please select other car available for rent. <Enter> to continue")
+              if retry == "":
+                clear()
+                break
+          except:
+            return 
+
+        if vehicle_id == "":
+          clear()
+          break   
+
 
     if user_option == "0":
-      break   
+      main() 
+      break       
 
 main()
 print(current_user)
