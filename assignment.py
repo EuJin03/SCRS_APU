@@ -239,6 +239,7 @@ def main():
       login(username, password)
 
     while option == "3":
+      clear()
       action = display_brand()
 
       if action["payload"] == "0":
