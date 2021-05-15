@@ -1,1 +1,127 @@
-[{"username": "admin", "email": "admin@mail.com", "password": " foach123", "wallet": 100, "rental_history": [], "isAdmin": true}, {"username": "eugene", "email": "eugene@mail.com", "password": " foach123", "wallet": 100000, "rental_history": [], "isAdmin": true}, {"username": "wenxuen", "email": "wenxuen@mail.com", "password": " foach123", "wallet": 0, "rental_history": [], "isAdmin": false}, {"username": "eugenetin", "email": "eugenetin@mail.com", "password": " foach123", "wallet": 0, "rental_history": [], "isAdmin": false}, {"username": "alladingg", "email": "alladingg@mail.com", "password": "kvvknsxqq", "wallet": 0, "rental_history": [], "isAdmin": false}]
+[
+    {
+        "email": "admin@mail.com",
+        "isAdmin": true,
+        "password": " foach123",
+        "rental_history": [],
+        "username": "admin",
+        "wallet": 100
+    },
+    {
+        "email": "eugene@mail.com",
+        "isAdmin": true,
+        "password": " foach123",
+        "rental_history": [],
+        "username": "eugene",
+        "wallet": 100000
+    },
+    {
+        "email": "wenxuen@mail.com",
+        "isAdmin": false,
+        "password": " foach123",
+        "rental_history": [],
+        "username": "wenxuen",
+        "wallet": 0
+    },
+    {
+        "email": "alladingg@mail.com",
+        "isAdmin": false,
+        "password": "kvvknsxqq",
+        "rental_history": [],
+        "username": "alladingg",
+        "wallet": 0
+    },
+    {
+        "email": "eugenetin@mail.com",
+        "isAdmin": false,
+        "password": "123456",
+        "rental_history": [
+            {
+                "brand": "Toyota",
+                "id": 0,
+                "model": "Vios",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "2",
+                    "end_date": "2021-05-17 22:15:15.314073",
+                    "start_date": "2021-05-15 22:15:15.314073",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            },
+            {
+                "brand": "Honda",
+                "id": 0,
+                "model": "Civic",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "2",
+                    "end_date": "2021-05-17 22:25:08.244592",
+                    "start_date": "2021-05-15 22:25:08.244592",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            },
+            {
+                "brand": "Honda",
+                "id": 0,
+                "model": "Civic",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "1",
+                    "end_date": "2021-05-16 22:39:56.988977",
+                    "start_date": "2021-05-15 22:39:56.988977",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            },
+            {
+                "brand": "Toyota",
+                "id": 0,
+                "model": "Vios",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "1",
+                    "end_date": "2021-05-16 22:40:28.425882",
+                    "start_date": "2021-05-15 22:40:28.425882",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            },
+            {
+                "brand": "Honda",
+                "id": 0,
+                "model": "Civic",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "2",
+                    "end_date": "2021-05-17 22:45:48.707847",
+                    "start_date": "2021-05-15 22:45:48.707847",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            },
+            {
+                "brand": "Toyota",
+                "id": 2,
+                "model": "Vios",
+                "price": "100.00",
+                "rent_by": {
+                    "duration": "1",
+                    "end_date": "2021-05-16 22:53:44.611904",
+                    "start_date": "2021-05-15 22:53:44.611904",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2020"
+            }
+        ],
+        "username": "eugenetinn",
+        "wallet": 100
+    }
+]
