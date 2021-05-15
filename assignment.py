@@ -43,10 +43,12 @@ def read_file(filename):
 
   return json.loads(data)
 
+# write txt files
 def write_file(filename, details):
   with open(filename, "w") as f:
     f.write(json.dumps(details))
 
+# user info validation
 def validation(username, password, confirm_password): 
   userlist = read_file("userlist.txt")
 
@@ -130,7 +132,6 @@ def register():
 
   clear()
   print("You have registered successfully, please login now")
-  
 
 # login
 def login(username, password):
@@ -153,11 +154,72 @@ def login(username, password):
     clear()
     print("Username or password is incorrect, please try again")
 
+# display car brand
+def display_brand():
+  cars = read_file("carlist.txt")
+  brand = []
+
+  # display car brand first
+  for car in cars: 
+    brand.append(car["brand"])
+  brand = list(set(brand))
+
+  count = 1
+  for i in brand:
+    print(f"{count}. {i}")
+    count+=1
+
+  print("\n0. Go back to home page")
+  option = input("Select a model: ")
+
+  return {
+    "payload": option,
+    "brand": brand
+  }
+
+# display car details
+def car_details(payload, brand):
+  clear()
+  cars = read_file("carlist.txt")
+  brand_selected = brand[payload]
+  model = []
+
+  for car in cars:
+    if car["brand"] == brand_selected:
+      model.append(car)
+
+  # display selected brand car model
+  for i in model:
+    id = i["id"]
+    brand = i["brand"]
+    model = i["model"]
+    year = i["year"]
+    price = i["price"]
+    availability = i["rental_status"]
+    rent_by = i["rent_by"]
+
+    print("\n")
+    print("-"*20)
+    print(f"vehicle id: {id}")
+    print(f"vehicle: {brand} {model}")
+    print(f"year: {year}")
+    print(f"pricing: {price}")
+    if availability:
+      print(f"availability: no")
+    if not availability:
+      print(f"availability: yes")
+    if rent_by:
+      if rent_by["username"]:
+        username = rent_by["username"]
+        print(f"currently rented by Mr/Mrs {username}")
+    print("-"*20)
+    print("\n")
+    
+  input("Press Enter to quit: ")
+  return
 
 # USER INTERFACE
 def main():
-
-
   print('-'*20)
   print('Super Car Rental Service (SCRS)')
   print('-'*20)
@@ -166,7 +228,7 @@ def main():
   while len(current_user) == 0:
     print('\n1. Login\n2. Register\n3. View Cars\n0. Quit')
 
-    option = input('Please enter your choice: ')
+    option = input('Please select a brand: ')
     if option == "2":
       register()
 
@@ -176,12 +238,26 @@ def main():
 
       login(username, password)
 
+    while option == "3":
+      action = display_brand()
+
+      if action["payload"] == "0":
+        clear()
+        break
+
+      while action["payload"] != 0:
+        payload = int(action["payload"]) - 1
+        brand = action["brand"]
+        car_details(payload, brand)
+        clear()
+        break        
+      
     if option == "0":
       break
 
   # admin
   while len(current_user) > 0 and current_user[0]["isAdmin"]:
-    print("Welcome Mr/Mrs", current_user[0]["username"])
+    print("\nWelcome Mr/Mrs", current_user[0]["username"])
     num = input("enter a number: ")
 
     if num == "1":
@@ -194,3 +270,4 @@ def main():
 
 main()
 print(current_user)
+
