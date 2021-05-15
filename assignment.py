@@ -218,6 +218,120 @@ def car_details(payload, brand):
 
 
 # ADMIN INTERFACE
+def add_car():
+  clear()
+  print("-"*20)
+  print("SCRS Vehicle Management")
+  print("-"*20, "\n")
+
+  brand = input("Car Brand: ")
+  model = input("Car Model: ")
+  year = input("Manufactured year: ")
+  price = input("Price rate per day: ")
+
+  carlist = read_file("carlist.txt")
+  latest_id = 0
+
+  for car in carlist:
+    if car["id"] > latest_id:
+      latest_id = car["id"]
+
+  updated_car = {
+    "brand": brand.capitalize(),
+    "id": latest_id + 1,
+    "model": model.capitalize(),
+    "price": int(price),
+    "rent_by": False,
+    "rental_status": False,
+    "year": year
+  }
+
+  carlist.append(updated_car)
+
+  write_file("carlist.txt", carlist)
+  return input("Car has been successfully added to the system... <Enter> to return:")
+
+
+def modify_car(id):
+  clear()
+  carlist = read_file("carlist.txt")
+
+  for car in carlist:
+    if car["id"] == id:
+      print("\nModify details of ", car["brand"], " ", car["model"])
+      
+      brand = input("\nCar Brand: ")
+      model = input("Car Model: ")
+      year = input("Manufactured Year: ")
+      price = input("Price rate per day: ")
+      rental_status = car["rental_status"]
+      rent_by = car["rent_by"]
+  
+      updated_car = {
+        "brand": brand.capitalize(),
+        "id": id,
+        "model": model.capitalize(),
+        "price": int(price),
+        "rent_by": rent_by,
+        "rental_status": rental_status,
+        "year": year
+      }
+      break
+
+  for i in range(len(carlist)):
+    if carlist[i]["id"] == id:
+      del carlist[i]
+      break
+
+  carlist.append(updated_car)
+  write_file("carlist.txt", carlist)
+
+  return {
+    "success": True,
+    "message": "Car's details has been modified successfully"
+  }
+
+def select_car():
+  clear()
+  print("-"*20)
+  print("SCRS Vehicle Management")
+  print("-"*20, "\n")
+
+  action = display_brand()
+
+  if action["payload"] == "0":
+    clear()
+    return ""
+
+  while action["payload"] != "0":
+    payload = int(action["payload"]) - 1
+    brand = action["brand"]
+    car_details(payload, brand)
+    vehicle_id = input("Select vehicle ID to modify or <Enter> to go back: ")
+
+    while len(vehicle_id) > 0:
+      clear()
+      status = modify_car(int(vehicle_id))
+
+      if status == "":
+        break
+
+      try:
+        if status["success"]:
+          clear()
+          print(status["message"])   
+          retry = input("<Enter> to continue...")
+          if retry == "":
+            clear()
+            break
+      except:
+        return 
+
+    if vehicle_id == "":
+      clear()
+      break   
+
+
 
 
 # CUSTOMER INTERFACE
@@ -494,8 +608,6 @@ def rental_history():
       break
   return input("<Enter> to return back to home page...")
 
-
-
 # USER INTERFACE
 def main():
   clear()
@@ -540,10 +652,41 @@ def main():
   while len(current_user) > 0 and current_user[0]["isAdmin"]:
     clear()
     print("Welcome Mr/Mrs", current_user[0]["username"].capitalize(), "\n")
-    num = input("enter a number: ")
+    print('1. Add a Car\n2. Modify a Car\'s Details\n3. Update Personal Information\n4. Car Rental Records\n5. Query Customer Record\n\n0. Logout\n')
+    admin_option = input("Please enter your choice: ")
 
-    if num == "1":
+    while admin_option == "5":
       break
+
+    while admin_option == "4":
+      break
+
+    while admin_option == "3":
+      personal_action = display_user()
+      if personal_action == "0":
+        break
+      user_data = check_user(int(personal_action))
+      msg = update_user(user_data)
+      clear()
+      print(msg, "\n")
+      main()
+
+    while admin_option == "2":
+      data = select_car()
+
+      if data == "":
+        break
+
+    while admin_option == "1":
+      data = add_car()
+
+      if data == "":
+        break
+
+    if admin_option == "0":
+      current_user.clear()
+      main() 
+      break  
 
   # customer
   while len(current_user) > 0 and not current_user[0]["isAdmin"]:
@@ -610,10 +753,11 @@ def main():
           break   
 
     if user_option == "0":
+      current_user.clear()
       main() 
       break       
 
 main()
-# reset expired rental
+# reset expired rental // return a rented car
 rental_expire()
 print(current_user)
