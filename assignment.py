@@ -1,70 +1,24 @@
 import os
 import datetime
+import json 
 from datetime import timedelta  
 clear = lambda: os.system("cls")
+
+# "start_date": datetime.datetime(2020, 5, 17),
+# "end_date": datetime.datetime(2020, 5, 17) + timedelta(days=2) 
 
 alphabet = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
             'u', 'v', 'w', 'x', 'y', 'z', ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
             'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-carlist = [
-  {
-    "brand": "Honda",
-    "model": "Civic",
-    "year": "2018",
-    "price": 100,
-    "rental_status": False,
-    "rent_by": "",
-  },
-  {
-    "brand": "Toyota",
-    "model": "Vios",
-    "year": "2020",
-    "price": 100,
-    "rental_status": False,
-    "rent_by": "",
-  },
-  {
-    "brand": "Mercedes",
-    "model": "Benz",
-    "year": "2018",
-    "price": 100,
-    "rental_status": True,
-    "rent_by": {
-      "username": "eugene",
-      "duration": "2d",
-      "start_date": datetime.datetime(2020, 5, 17),
-      "end_date": datetime.datetime(2020, 5, 17) + timedelta(days=2)  
-    },
-  },
-]
+# with open("carlist.txt", "w") as f:
+#   f.write(json.dumps(carlist))
+  
+# reading the data from the file
+# with open('data.txt') as f:
+#   data = f.read()
 
-userlist = [
-  {
-    "username": "admin",
-    "email": "admin@mail.com",
-    "password": " foach123",
-    "wallet": 100,
-    "rental_history": [],
-    "isAdmin": True,
-  },
-  {
-    "username": "eugene",
-    "email": "eugene@mail.com",
-    "password": " foach123",
-    "wallet": 100000,
-    "rental_history": [],
-    "isAdmin": True,
-  },
-  {
-    "username": "wenxuen",
-    "email": "wenxuen@mail.com",
-    "password": " foach123",
-    "wallet": 0,
-    "rental_history": [],
-    "isAdmin": False,
-  }
-]
+# js = json.loads(data)
 
 current_user = []
 default_salt = 10 % 26
@@ -82,7 +36,20 @@ def encryption(text, salt, direction):
       crypted_text += letter
   return crypted_text
 
+# read txt files
+def read_file(filename):
+  with open(filename) as f:
+    data = f.read()
+
+  return json.loads(data)
+
+def write_file(filename, details):
+  with open(filename, "w") as f:
+    f.write(json.dumps(details))
+
 def validation(username, password, confirm_password): 
+  userlist = read_file("userlist.txt")
+
   if len(password) < 5:
     return {
       "err": True,
@@ -144,6 +111,8 @@ def user_input():
 
 # register
 def register():
+  userlist = read_file("userlist.txt")
+
   user_detail = user_input()
 
   user = {
@@ -157,12 +126,19 @@ def register():
 
   userlist.append(user)
 
+  write_file("userlist.txt", userlist)
+
   clear()
   print("You have registered successfully, please login now")
   
 
 # login
 def login(username, password):
+  with open('userlist.txt') as f:
+    data = f.read()
+
+  userlist = json.loads(data)
+
   err = True
   for user in userlist:
     if user["username"] == username:
@@ -180,6 +156,8 @@ def login(username, password):
 
 # USER INTERFACE
 def main():
+
+
   print('-'*20)
   print('Super Car Rental Service (SCRS)')
   print('-'*20)
@@ -216,4 +194,3 @@ def main():
 
 main()
 print(current_user)
-print(userlist)
