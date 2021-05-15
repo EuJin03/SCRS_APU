@@ -436,9 +436,34 @@ def rent_car(id):
             return end
         break
 
-# def rental_expire():
+def rental_expire():
+  carlist = read_file("carlist.txt")
+  reset_car = []
 
+  for i in range(len(carlist) - 1):
+    car = carlist[i]
+    if car["rental_status"]:
+      if datetime.datetime.strptime(car["rent_by"]["end_date"], "%Y-%m-%d %H:%M:%S.%f") < datetime.datetime.now():
+        
+        updated_car = {
+          "brand": car["brand"],
+          "id": car["id"],
+          "model": car["model"],
+          "price": car["price"],
+          "rent_by": False,
+          "rental_status": False,
+          "year": car["year"],
+        }
 
+        reset_car.append(updated_car)
+        del car
+
+  for car in reset_car:
+    carlist.append(car)
+
+  write_file("carlist.txt", carlist)
+  return
+        
 # USER INTERFACE
 def main():
   clear()
@@ -553,4 +578,6 @@ def main():
       break       
 
 main()
+# reset expired rental
+rental_expire()
 print(current_user)
