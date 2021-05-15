@@ -67,7 +67,7 @@ userlist = [
 ]
 
 current_user = []
-default_salt = 10
+default_salt = 10 % 26
 
 def encryption(text, salt, direction):
   crypted_text = ""
@@ -146,14 +146,10 @@ def user_input():
 def register():
   user_detail = user_input()
 
-  username = user_detail["username"]
-  email = user_detail["email"]
-  password = user_detail["password"]
-
   user = {
-    "username": username,
-    "email": email,
-    "password": password,
+    "username": user_detail["username"],
+    "email": user_detail["email"],
+    "password": user_detail["password"],
     "wallet": 0,
     "rental_history": [],
     "isAdmin": False,
@@ -188,6 +184,7 @@ def main():
   print('Super Car Rental Service (SCRS)')
   print('-'*20)
 
+  # main page
   while len(current_user) == 0:
     print('\n1. Login\n2. Register\n3. View Cars\n0. Quit')
 
@@ -204,12 +201,18 @@ def main():
     if option == "0":
       break
 
+  # admin
   while len(current_user) > 0 and current_user[0]["isAdmin"]:
     print("Welcome Mr/Mrs", current_user[0]["username"])
     num = input("enter a number: ")
 
     if num == "1":
       break
+
+  # customer
+  while len(current_user) > 0 and not current_user[0]["isAdmin"]:
+    print("hello")
+    break
 
 main()
 print(current_user)
