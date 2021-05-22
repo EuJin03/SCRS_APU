@@ -20,6 +20,14 @@
 # 8. four classes of function: util/users/vehicles/user_interface 
 # 9. two data files: userlist/carlist
 
+# admin credentials
+# username: admin
+# password: admin
+
+# customer credentials
+# username: wenxuen
+# password: wenxuen
+
 import os
 import re
 import datetime 
@@ -861,7 +869,7 @@ def customer_query():
       return end
 
   # error handling 2
-  if not selected_username.lower() in usernames:
+  if not selected_username.isnumeric() and not selected_username.lower() in usernames:
       print("Username does not exist...")
       end = input("<Enter> to return")
       clear()
@@ -869,8 +877,6 @@ def customer_query():
 
   while True:
     clear()
-    print(count)
-    print(len(usernames))
     if selected_username.isnumeric():
       for user in userlist:
         if user[0] == usernames[int(selected_username)]:
@@ -921,8 +927,6 @@ def customer_query():
     end = input("<Enter> to return")
     clear()
     return end
-
-          
 
 
 # ---------------------------------------------------------------------------------
