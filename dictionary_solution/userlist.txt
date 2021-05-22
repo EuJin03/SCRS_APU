@@ -1,13 +1,5 @@
 [
     {
-        "email": "admin@mail.com",
-        "isAdmin": true,
-        "password": " foach123",
-        "rental_history": [],
-        "username": "admin",
-        "wallet": 100
-    },
-    {
         "email": "eugene@mail.com",
         "isAdmin": true,
         "password": " foach123",
@@ -30,6 +22,14 @@
         "rental_history": [],
         "username": "alladingg",
         "wallet": 0
+    },
+    {
+        "email": "admin@mail.com",
+        "isAdmin": true,
+        "password": "123456",
+        "rental_history": [],
+        "username": "admin", 
+        "wallet": 100
     },
     {
         "email": "eugenetin@mail.com",
@@ -119,9 +119,23 @@
                 },
                 "rental_status": true,
                 "year": "2020"
+            },
+            {
+                "brand": "Proton",
+                "id": 8,
+                "model": "Saga",
+                "price": "10.00",
+                "rent_by": {
+                    "duration": "5",
+                    "end_date": "2021-05-21 04:05:36.318024",
+                    "start_date": "2021-05-16 04:05:36.318024",
+                    "username": "eugene"
+                },
+                "rental_status": true,
+                "year": "2018"
             }
         ],
         "username": "eugenetinn",
-        "wallet": 100
+        "wallet": 50
     }
 ]

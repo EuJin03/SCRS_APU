@@ -1,0 +1,98 @@
+[
+    {
+        "brand": "Honda",
+        "id": 0,
+        "model": "Civic",
+        "price": 100,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2018"
+    },
+    {
+        "brand": "Honda",
+        "id": 1,
+        "model": "Civic",
+        "price": 100,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2020"
+    },
+    {
+        "brand": "Mercedes",
+        "id": 2,
+        "model": "Benz",
+        "price": 100,
+        "rent_by": {
+            "duration": "2",
+            "end_date": "2020-05-16 22:53:44.611904",
+            "start_date": "2020-05-15 22:53:44.611904",
+            "username": "eugene"
+        },
+        "rental_status": true,
+        "year": "2018"
+    },
+    {
+        "brand": "Toyota",
+        "id": 3,
+        "model": "Vios",
+        "price": "100.00",
+        "rent_by": {
+            "duration": "1",
+            "end_date": "2021-05-16 22:53:44.611904",
+            "start_date": "2021-05-15 22:53:44.611904",
+            "username": "eugene"
+        },
+        "rental_status": true,
+        "year": "2020"
+    },
+    {
+        "brand": "Perodua",
+        "id": 4,
+        "model": "Myvi",
+        "price": 1000,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2020"
+    },
+    {
+        "brand": "Mercedes",
+        "id": 5,
+        "model": "Benz",
+        "price": 100,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2018"
+    },
+    {
+        "brand": "Mercedes",
+        "id": 6,
+        "model": "Benz",
+        "price": 100,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2018"
+    },
+    {
+        "brand": "Mercedes",
+        "id": 7,
+        "model": "Benz",
+        "price": 100,
+        "rent_by": false,
+        "rental_status": false,
+        "year": "2018"
+    },
+    {
+        "brand": "Proton",
+        "id": 8,
+        "model": "Saga",
+        "price": 10,
+        "rent_by": {
+            "duration": "5",
+            "end_date": "2021-05-21 04:05:36.318024",
+            "start_date": "2021-05-16 04:05:36.318024",
+            "username": "eugene"
+        },
+        "rental_status": true,
+        "year": "2018"
+    }
+]

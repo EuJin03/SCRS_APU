@@ -1,0 +1,170 @@
+[
+  [
+    "admin",
+    "admin@mail.com",
+    "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+    "183216766",
+    "Kuala Lumpur",
+    0,
+    [],
+    "admin"
+  ],
+  [
+    "alladingg",
+    "alladingg@mail.com",
+    "65f6f700e03048c933e2076a21b6d04052bb56c6e5a5954daf7318b714af5fd7",
+    "0183216766",
+    "Kuala Lumpur",
+    100,
+    [],
+    ""
+  ],
+  [
+    "eugenetin",
+    "eugenetin@mail.com",
+    "fdd319e754b1ca8f0450d1caeb163de330818106762fd1b32a282f12b9161c92",
+    "0183216766",
+    "Kuala Lumpur",
+    0,
+    [],
+    ""
+  ],
+  [
+    "chiawx",
+    "chiawx@mail.com",
+    "8f90697744e9c078a7731bed655bdf8c47d6a0188414f7099313e41a46520c7d",
+    "0183216766",
+    "Kuala Lumpur",
+    10,
+    [],
+    ""
+  ],
+  [
+    "valorant",
+    "valorant@mail.com",
+    "6cf28fed21c2c6c43fc39781fcbb2340a36d4633fb830f203015cb78978b15b6",
+    "0183216766",
+    "Kuala Lumpur",
+    10,
+    [],
+    ""
+  ],
+  [
+    "lololan",
+    "lololan@mail.com",
+    "fe8c13aac05d2a95e6d2673815b8e49c7e766e1c516fefd4644f5ee533b8124c",
+    "0183216766",
+    "Kuala Lumpur",
+    10,
+    [],
+    ""
+  ],
+  [
+    "eugene",
+    "eugene@mail.com",
+    "f5a38e4245e1c0094edfe353a8d77577f61031999ec900c57de05640cb5459d9",
+    "183216766",
+    "Kuala Lumpur",
+    100400.0,
+    [
+      [
+        2,
+        "DEF1234",
+        "Honda",
+        "Civic",
+        2010,
+        "Eugene",
+        4.0,
+        "Old but gold",
+        100.0,
+        5,
+        true,
+        [
+          "eugene",
+          "2",
+          "2021-05-21 08:52:36.763166",
+          "2021-05-21 08:52:36.763166"
+        ]
+      ]
+    ],
+    "admin"
+  ],
+  [
+    "wenxuen",
+    "wenxuen@mail.com",
+    "4e3a14547b34a21759e22e4e3d988ea8e116d268c95ade8124a99e79d12d1bae",
+    "183216766",
+    "Kuala Lumpur",
+    10000.0,
+    [
+      [
+        0,
+        "ABC1234",
+        "Perodua",
+        "Myvi",
+        2018,
+        "eugene",
+        8.0,
+        "Looks new",
+        10.0,
+        5,
+        true,
+        [
+          "wenxuen",
+          "5",
+          "2021-05-22 04:03:14.137928",
+          "2021-05-27 04:03:14.137928"
+        ]
+      ],
+      [
+        1,
+        "ABC5678",
+        "Mercedes",
+        "Benz",
+        2019,
+        "eugene",
+        9.5,
+        "Elegant, clean fuel consumption, environmental-friendly",
+        100.0,
+        5,
+        true,
+        [
+          "wenxuen",
+          "5",
+          "2021-05-22 04:38:26.918530",
+          "2021-05-27 04:38:26.918530"
+        ]
+      ],
+      [
+        2,
+        "DEF1234",
+        "Honda",
+        "Civic",
+        2010,
+        "Eugene",
+        4.0,
+        "Old but gold",
+        100.0,
+        5,
+        true,
+        [
+          "wenxuen",
+          "1",
+          "2021-05-22 04:40:45.114213",
+          "2021-05-23 04:40:45.114213"
+        ]
+      ]
+    ],
+    ""
+  ],
+  [
+    "qwerty",
+    "qwerty@mail.com",
+    "65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5",
+    "0183216766",
+    "Johor",
+    0,
+    [],
+    ""
+  ]
+]

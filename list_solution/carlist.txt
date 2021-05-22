@@ -1,0 +1,73 @@
+[
+  [
+    1,
+    "ABC5678",
+    "Mercedes",
+    "Benz",
+    2019,
+    "eugene",
+    9.5,
+    "Elegant, clean fuel consumption, environmental-friendly",
+    100.0,
+    5,
+    true,
+    [
+      "wenxuen",
+      "5",
+      "2021-05-22 04:38:26.918530",
+      "2021-05-27 04:38:26.918530"
+    ]
+  ],
+  [
+    2,
+    "DEF1234",
+    "Honda",
+    "Civic",
+    2010,
+    "Eugene",
+    4.0,
+    "Old but gold",
+    100.0,
+    5,
+    true,
+    [
+      "wenxuen",
+      "1",
+      "2021-05-22 04:40:45.114213",
+      "2021-05-23 04:40:45.114213"
+    ]
+  ],
+  [
+    3,
+    "XYZ1234",
+    "Proton",
+    "Saga",
+    2018,
+    "Eugene",
+    8.0,
+    "Cheap because it is made in Malaysia",
+    5.0,
+    5,
+    false,
+    false
+  ],
+  [
+    0,
+    "ABC1234",
+    "Perodua",
+    "Myvi",
+    2018,
+    "eugene",
+    8.0,
+    "Looks new",
+    10.0,
+    5,
+    true,
+    [
+      "wenxuen",
+      "5",
+      "2021-05-22 04:03:14.137928",
+      "2021-05-27 04:03:14.137928"
+    ]
+  ]
+]

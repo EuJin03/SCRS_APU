@@ -265,7 +265,7 @@ def add_car():
   print("-"*20)
   print("SCRS Vehicle Management")
   print("-"*20, "\n")
-
+ 
   brand = input("Car Brand: ")
   model = input("Car Model: ")
   year = input("Manufactured year: ")
@@ -277,7 +277,7 @@ def add_car():
   for car in carlist:
     if car["id"] > latest_id:
       latest_id = car["id"]
-
+ 
   updated_car = {
     "brand": brand.capitalize(),
     "id": latest_id + 1,
@@ -372,6 +372,7 @@ def select_car(callback):
       clear()
       break   
 
+# attention!
 def rented_out(carlist):
   print("CARS ON TRANSIT RECORDS\n")
   for car in carlist:
@@ -422,7 +423,6 @@ def rent_available():
     if done == "":
       break
       
-
 def rental_records():
   carlist = read_file("carlist.txt")
   clear()
@@ -449,7 +449,6 @@ def rental_records():
     
     if end == "":
       break 
-
 
 # CUSTOMER INTERFACE
 def delete_user(): 
@@ -689,8 +688,8 @@ def rental_expire():
         reset_car.append(updated_car)
         del car
 
-  for car in reset_car:
-    carlist.append(car)
+  for car in reset_car: 
+    carlist.append(car) 
 
   write_file("carlist.txt", carlist)
   return
