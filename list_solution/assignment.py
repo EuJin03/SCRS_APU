@@ -43,10 +43,12 @@ def read_file(filename):
   # -------------------------
   # read txt files
   # -------------------------
-  with open(filename) as f:
-    data = f.read()
-
-  return json.loads(data)
+  try:
+    with open(filename) as f:
+      data = f.read()
+    return json.loads(data)
+  except:
+    return []
 
 def write_file(filename, content):
   # -------------------------
@@ -54,6 +56,8 @@ def write_file(filename, content):
   # -------------------------
   with open(filename, "w") as f:
     f.write(json.dumps(content, indent=2, sort_keys=True, default=str))
+    f.close()
+  return
 
 def hash_password(password):
   # -------------------------
