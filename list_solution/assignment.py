@@ -7,6 +7,7 @@
   # assign admin
   # forgot password
   # limit displayed data and split it into several pages
+  # User able to manually return vehicle before deadline and extend rental date
   # ...
 
 # convention
