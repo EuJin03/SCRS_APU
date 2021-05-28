@@ -1,6 +1,6 @@
 # SCRS_APU
 
-Foobar is a Python library for dealing with word pluralization.
+Online Car Rental System created using python 
 
 ## Installation
 
