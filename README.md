@@ -22,7 +22,7 @@ Please make sure to update tests as appropriate.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
-## Project status
+## Project Status
 * Ongoing
 * additional features to be include
   1. assign admin
