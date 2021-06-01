@@ -10,13 +10,8 @@
     "Elegant, clean fuel consumption, environmental-friendly",
     100.0,
     5,
-    true,
-    [
-      "wenxuen",
-      "5",
-      "2021-05-22 04:38:26.918530",
-      "2021-05-27 04:38:26.918530"
-    ]
+    false,
+    false
   ],
   [
     2,

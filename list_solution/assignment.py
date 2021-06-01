@@ -70,7 +70,7 @@ def validation(username="*****", email="*****@mail.com", password="*****", confi
   # -------------------------
   # user info validation
   # -------------------------
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   # password
   if len(password) < 5:
@@ -222,7 +222,7 @@ def rental_expire():
   # -------------------------
   # reset car availability status when expired
   # -------------------------
-  carlist = read_file("./list_solution/carlist.txt")
+  carlist = read_file("carlist.txt")
 
   for i in range(len(carlist) - 1):
     car = carlist[i]
@@ -230,7 +230,7 @@ def rental_expire():
       if datetime.datetime.strptime(car[-1][3], "%Y-%m-%d %H:%M:%S.%f") < datetime.datetime.now():
         car[-1] = False
         car[-2] = False
-        write_file("./list_solution/carlist.txt", carlist)       
+        write_file("carlist.txt", carlist)       
         return
 
 # ---------------------------------------------------------------------------------
@@ -242,12 +242,12 @@ def register():
   # access: anyone
   # -------------------------
   clear()
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   user_detail = user_input()
   userlist.append(user_detail)
 
-  write_file("./list_solution/userlist.txt", userlist)
+  write_file("userlist.txt", userlist)
 
   clear()
   if user_detail[-3] != 0:
@@ -260,7 +260,7 @@ def login(username, password):
   # Login
   # access: anyone
   # -------------------------
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   err = True
   for user in userlist:
@@ -303,7 +303,7 @@ def update_user(action, current_user):
   if action == "0":
     return ""
 
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   # update username
   while action == "1":
@@ -318,7 +318,7 @@ def update_user(action, current_user):
       for user in userlist:
         if user[0] == current_user[0][0]:
           user[0] = username
-          write_file("./list_solution/userlist.txt", userlist)
+          write_file("userlist.txt", userlist)
           return [False, "User info has been successfully updated!", user]
 
   # update email
@@ -334,7 +334,7 @@ def update_user(action, current_user):
       for user in userlist:
         if user[0] == current_user[0][0]:
           user[1] = email
-          write_file("./list_solution/userlist.txt", userlist)
+          write_file("userlist.txt", userlist)
           return [False, "User info has been successfully updated!", user]
           
 
@@ -350,7 +350,7 @@ def update_user(action, current_user):
     for user in userlist:
       if user[0] == current_user[0][0]:
         user[1] = contact
-        write_file("./list_solution/userlist.txt", userlist)
+        write_file("userlist.txt", userlist)
         return [False, "User info has been successfully updated!", user]
   
   # update password
@@ -387,7 +387,7 @@ def update_user(action, current_user):
           user[2] = hash_password(new_password)
           break
 
-    write_file("./list_solution/userlist.txt", userlist)
+    write_file("userlist.txt", userlist)
     return [True, "User info has been successfully updated, please login again..."]
 
 def modify_wallet(current_user):
@@ -408,7 +408,7 @@ def modify_wallet(current_user):
   
     if add_fund == "1":
       amount = input("Enter the amount you wished to deposit: RM")
-      userlist = read_file("./list_solution/userlist.txt")
+      userlist = read_file("userlist.txt")
 
       amount = "{:.2f}".format(int(amount))
 
@@ -418,7 +418,7 @@ def modify_wallet(current_user):
           updated_user = user
           break
 
-      write_file("./list_solution/userlist.txt", userlist)
+      write_file("userlist.txt", userlist)
       current_user[0] = updated_user
       clear()
       print(f"Total fund of RM{amount} has been deposited")
@@ -431,8 +431,8 @@ def rent_car(id, current_user):
   # access: customer
   # -------------------------
   clear()
-  carlist = read_file("./list_solution/carlist.txt")
-  userlist = read_file("./list_solution/userlist.txt")
+  carlist = read_file("carlist.txt")
+  userlist = read_file("userlist.txt")
 
   for car in carlist:
     if car[0] == id:
@@ -470,8 +470,8 @@ def rent_car(id, current_user):
             user[6].append(car)
             user[5] -= total_price
 
-            write_file("./list_solution/carlist.txt", carlist)
-            write_file("./list_solution/userlist.txt", userlist)
+            write_file("carlist.txt", carlist)
+            write_file("userlist.txt", userlist)
             current_user[0] = user
 
             total_price = "{:.2f}".format(total_price)
@@ -491,7 +491,7 @@ def display_brand():
   # Display car brand
   # access: anyone
   # -------------------------
-  cars = read_file("./list_solution/carlist.txt")
+  cars = read_file("carlist.txt")
   brand = [] # list of registered car brand
 
   # display car brand first
@@ -519,7 +519,7 @@ def car_details(brand, default=True):
   # access: anyone
   # -------------------------
   clear()
-  cars = read_file("./list_solution/carlist.txt")
+  cars = read_file("carlist.txt")
   car_model = [] # display models from car brand
 
   if default:
@@ -598,7 +598,7 @@ def add_car():
   price_rate = field_control("Price rate per day: RM", 1)
   seats = field_control("Number of seats: ", 1)
 
-  carlist = read_file("./list_solution/carlist.txt")
+  carlist = read_file("carlist.txt")
 
   latest_id = 0
 
@@ -610,7 +610,7 @@ def add_car():
 
   carlist.append(new_car)
 
-  write_file("./list_solution/carlist.txt", carlist)
+  write_file("carlist.txt", carlist)
   detail = input("Car has been successfully added to the system... <Enter> to return:")
   clear()
   return detail
@@ -622,7 +622,7 @@ def modify_car(id):
   # access: admin
   # -------------------------
   clear()
-  carlist = read_file("./list_solution/carlist.txt")
+  carlist = read_file("carlist.txt")
 
   for car in carlist:
     if car[0] == id:
@@ -649,7 +649,7 @@ def modify_car(id):
       break
 
   carlist.append(new_car)
-  write_file("./list_solution/carlist.txt", carlist)
+  write_file("carlist.txt", carlist)
 
   return [True, "Car's details has been modified successfully"]
 
@@ -694,7 +694,7 @@ def rental_history(current_user):
   # access: customer
   # -------------------------
   clear()
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   for user in userlist:
     if user[0] == current_user[0][0]:
@@ -738,7 +738,7 @@ def rented_out():
   print("CARS ON TRANSIT RECORDS")
   print("-"*25, "\n")
 
-  carlist = read_file("./list_solution/carlist.txt")
+  carlist = read_file("carlist.txt")
 
   for car in carlist:
     if car[-2]:
@@ -809,7 +809,7 @@ def customer_payment():
   print("SCRS Customer Order Record")
   print("-"*20, "\n")
 
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   for user in userlist:
     if len(user[-2]) > 0:
@@ -843,7 +843,7 @@ def customer_payment():
   return end
 
 def customer_query():
-  userlist = read_file("./list_solution/userlist.txt")
+  userlist = read_file("userlist.txt")
 
   usernames = [] # list of registered usernames 
 
