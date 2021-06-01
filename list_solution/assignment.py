@@ -626,6 +626,7 @@ def modify_car(id):
   # access: admin
   # -------------------------
   clear()
+  print('Car model: ')
   carlist = read_file("carlist.txt")
 
   for car in carlist:
