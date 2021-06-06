@@ -32,8 +32,8 @@
 import os
 import re
 import datetime 
-from datetime import timedelta  
-import json 
+from datetime import timedelta
+import json
 import hashlib
 clear = lambda: os.system("cls")
 
@@ -74,7 +74,7 @@ def validation(username="*****", email="*****@mail.com", password="*****", confi
 
   # password
   if len(password) < 5:
-    return [True, "Password must be greater than 5"]
+    return [True, "Password length must be greater than 5"]
 
   # password
   if password != confirm_password:
@@ -152,7 +152,7 @@ def user_input():
 
   # contact
   while True: 
-    contact = input("Contact Number: +60")
+    contact = input("Contact Number: +6")
 
     if not contact.isnumeric():
     
@@ -284,7 +284,7 @@ def display_user(current_user):
   clear()
   username = current_user[0][0]
   email = current_user[0][1]
-  contact = "+60" + str(current_user[0][3])
+  contact = "+6" + str(current_user[0][3])
 
   print("Update Personal Information\n")
   print(f"1. Username: [{username}]\n2. Email: [{email}]\n3. Contact Number: [{contact}]\n4. Password\n\n0. Go Back\n")
@@ -318,8 +318,9 @@ def update_user(action, current_user):
       for user in userlist:
         if user[0] == current_user[0][0]:
           user[0] = username
-          write_file("userlist.txt", userlist)
-          return [False, "User info has been successfully updated!", user]
+          break
+      write_file("userlist.txt", userlist)
+      return [False, "User info has been successfully updated!", user]
 
   # update email
   while action == "2":
@@ -334,13 +335,14 @@ def update_user(action, current_user):
       for user in userlist:
         if user[0] == current_user[0][0]:
           user[1] = email
-          write_file("userlist.txt", userlist)
-          return [False, "User info has been successfully updated!", user]
+          break
+      write_file("userlist.txt", userlist)
+      return [False, "User info has been successfully updated!", user]
           
 
   # update contact
   while action == "3":
-    contact = input("Enter new contact number: +60")
+    contact = input("Enter new contact number: +6")
 
     if not contact.isnumeric():
       clear()
@@ -349,9 +351,10 @@ def update_user(action, current_user):
 
     for user in userlist:
       if user[0] == current_user[0][0]:
-        user[1] = contact
-        write_file("userlist.txt", userlist)
-        return [False, "User info has been successfully updated!", user]
+        user[3] = contact
+        break
+    write_file("userlist.txt", userlist)
+    return [False, "User info has been successfully updated!", user]
   
   # update password
   while action == "4":
@@ -604,7 +607,7 @@ def add_car():
 
   for car in carlist:
     if car[0] > latest_id:
-      latest_id = car[0]
+      latest_id = car[0] + 1
 
   new_car = [int(latest_id), num_plate, brand.capitalize(), model.capitalize(), int(year), owner.capitalize(), float(condition), desc, float(price_rate), int(seats), False, False]
 
@@ -932,7 +935,6 @@ def customer_query():
     end = input("<Enter> to return")
     clear()
     return end
-
 
 # ---------------------------------------------------------------------------------
 # USER INTERFACE
