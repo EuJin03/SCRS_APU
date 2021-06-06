@@ -1,7 +1,11 @@
-# Eugene Tin 
+# Eugene Tin
 # TP061195
 # ASIA PACIFIC UNIVERSITY OF TECHNOLOGY AND INNOVATION
 # GITHUB REPO https://github.com/EuJin03/SCRS_APU
+
+# Chia Wen Xuen
+# TP061184
+# ASIA PACIFIC UNIVERSITY OF TECHNOLOGY AND INNOVATION
 
 # todolist
   # assign admin
@@ -625,6 +629,7 @@ def modify_car(id):
   # access: admin
   # -------------------------
   clear()
+  print('Car model: ')
   carlist = read_file("carlist.txt")
 
   for car in carlist:
