@@ -962,40 +962,46 @@ def main():
   while len(current_user) == 0:
     print('\n1. Login\n2. Register\n3. View Cars\n0. Quit')
     option = input('Please select a choice: ')
+		
+	        for i in option:
+            if i == "3":
+                clear()
+                print("\nCar List:")
+                action = display_brand()
 
-    while option == "3":
-      clear()
-      action = display_brand()
+                if action[0] == "0":
+                    clear()
+                    break
 
-      if action[0] == "0":
-        clear()
-        break
+                while action[0] != "0":
+                    payload = int(action[0]) - 1
+                    car_details(brand=action[1][payload])
+                    input("Press Enter to quit: ")
+                    clear()
+                    break
 
-      while action[0] != "0":
-        payload = int(action[0]) - 1
-        car_details(brand=action[1][payload])
-        input("Press Enter to quit: ")
-        clear()
-        break       
+            elif i == "2":
+                register()
 
-    if option == "2":
-      register()
+            elif i == "1":
+                clear()
+                print("LOGIN\n")
+                username = input("Username: ")
+                password = input("Password: ")
 
-    if option == "1":
-      clear()
-      print("LOGIN\n")
-      username = input("Username: ")
-      password = input("Password: ")
+                login_user = login(username, password)
 
-      login_user = login(username, password)
+                if login_user == "":
+                    main()
 
-      if login_user == "":
-        main()
+                current_user.append(login_user)
 
-      current_user.append(login_user)
-      
-    if option == "0":
-      break
+            elif i == "0":
+                clear()
+                break
+
+            else:
+                print("Invalid input, please enter values listed above.")
 
   # admin interface
   while len(current_user) > 0 and current_user[0][-1].lower() == "admin":
