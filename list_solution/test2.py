@@ -5,3 +5,8 @@ table_data = [
 ]
 for row in table_data:
     print("{: >10} {: >20} {: >20}".format(*row))
+
+num = "6"
+
+if  num > "5":
+    print("yay")

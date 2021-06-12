@@ -179,6 +179,10 @@
         ]
       ]
     ],
-    ""
+    "",
+    [
+      2,
+      "Good service, nice vehicle condition"
+    ]
   ]
 ]

@@ -558,11 +558,89 @@ def assign_admin():
       else:
         return ""
 
-def display_feedback():
-  print("show feedbacks")
+def display_feedback(current_user=[[]]):
+  # -------------------------
+  # Display feedbacks by customers that has used our service
+  # access: everyone
+  # -------------------------
+  userlist = read_file("userlist.txt")
 
-def submit_feedback(current_user):
-  print("give a feedback")
+  print("-"*30)
+  print("SUPER CAR RENTAL SERVICE (SCRS)")
+  print("-"*30, "\n")
+
+  header = ["Username", "Rating", "Customer Feedback"]
+  format_row = "|{:^25}|{:^40}|{:^80}|"
+
+  print(format_row.format(*header))
+  print("-"*150)
+
+  for user in userlist:
+    if len(user) == 9:
+      username = user[0]
+      rating = user[8][0]
+      feedback = user[8][1][0:60] + "..."
+
+      print(format_row.format(username, "✰ "*rating, feedback))
+
+  if len(current_user[0]) > 0:
+    while len(current_user[0][6]) != 0 and len(current_user[0]) == 8:
+      choice = submit_feedback(current_user[0][0])
+
+      if len(choice[1]) > 0:
+        current_user[0] = choice[1]
+      if choice[0] == "":
+        break
+      
+  end = input("\nPress <Enter> to return to main menu...")
+  clear()
+
+  return [end, current_user]
+
+def submit_feedback(username):
+  # -------------------------
+  # Allow customer to submit feedback
+  # access: customer that used SCRS at least once
+  # -------------------------
+  userlist = read_file("userlist.txt")
+  submission = input("\nDo you want to submit your own feedback or provide any suggestions? [yes/No]")
+
+  if submission.lower() == "yes":
+    clear()
+
+    print("-"*30)
+    print("SUPER CAR RENTAL SERVICE (SCRS)")
+    print("-"*30, "\n")
+
+    print("Customer Feedback Form\n")
+
+    while True:
+      rating = input("On a scale of 1-5, how would you rate Super Car Rental Service? ")
+
+      if rating.isnumeric() and rating > "0" and rating < "6":
+        break        
+    
+    while True:
+      feedback = input("Feel free to give short opinion on our service: ")
+
+      if len(feedback) < 10:
+        print("Message length should be greater than 10 characters")
+      else:
+        break
+
+    print("-"*30)
+
+    for user in userlist:
+      if user[0] == username:
+        review = [int(rating), feedback]
+        user.append(review)
+        write_file("userlist.txt", userlist)
+        end = input("Your feedback has been submitted successfully! Press <Enter> key to return...")
+        return [end, user]
+  else:
+    return ["", []]
+   
+
 # ---------------------------------------------------------------------------------
 # CAR FUNCTIONS
 # ---------------------------------------------------------------------------------
@@ -1036,8 +1114,9 @@ def main():
 
     while option == "4":
       clear()
-      input("feedback ")
-      break
+      end = display_feedback()
+      if end[0] == "":
+        break
 
     while option == "3":
       clear()
@@ -1085,8 +1164,16 @@ def main():
     print('Super Car Rental Service (SCRS)')
     print('-'*20, "\n")
     print("Welcome, " + current_user[0][0].capitalize(), "\n")
-    print("1. Add a Vehicle\n2. Modify a Vehicle\'s Details\n3. Update Personal Information\n4. Vehicle Rental Records\n5. Query Customer Record\n6. Assign a new administrator\n\n0. Logout\n")
+    print("1. Add a Vehicle\n2. Modify a Vehicle\'s Details\n3. Update Personal Information\n4. Vehicle Rental Records\n5. Query Customer Record\n\n6. Assign a new administrator\n7. Customer Feedback\n\n0. Logout\n")
     admin_option = input("Please enter your choice: ")
+
+    # Customer feedback
+    while admin_option == "7":
+      clear()
+      end = display_feedback()
+
+      if end[0] == "":
+        break
 
     # Assign admin
     while admin_option == "6":
@@ -1194,13 +1281,18 @@ def main():
     print("SUPER CAR RENTAL SERVICE")
     print("-"*30, "\n")
     print("Welcome, " + current_user[0][0].capitalize() + "\n")
-    print('1. Rent a Car\n2. Update Personal Information\n3. Rental History\n4. Check Wallet\n5. Write a feedback\n\n0. Logout\n')
+    print('1. Rent a Car\n2. Update Personal Information\n3. Rental History\n4. Check Wallet\n5. Customer Feedback\n\n0. Logout\n')
     user_option = input("Please enter your choice: ")
 
     # feedback / suggestion
     while user_option == "5":
-      input("feedback")
-      break
+      clear()
+      choice = display_feedback(current_user)
+      if len(choice[1]) > 0:
+        current_user = choice[1]
+
+      if choice[0] == "":
+        break
 
     # check wallet
     while user_option == "4":
@@ -1237,8 +1329,7 @@ def main():
         break
      
       if choice:
-        break
-    
+        break 
 
     # rent car
     while user_option == "1":
