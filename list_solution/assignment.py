@@ -199,7 +199,7 @@ def user_input():
     
   return [username.lower(), email, hash_password(password), "0" + contact, city, int(wallet), [], ""]
 
-def field_control(field_text, type, wildcard=""):
+def field_control(field_text, type, wildcard="404"):
   # -------------------------
   # input field check with error handling
   # extend from add_car()
@@ -512,7 +512,12 @@ def display_brand():
   for car in cars: 
     brand.append(car[2])
   brand = list(set(brand))
+  brand.sort()
 
+  print("-"*30)
+  print("Select Vehicle Brand")
+  print("-"*30, "\n")
+  
   while True:
     count = 1
     for i in brand:
@@ -532,7 +537,6 @@ def car_details(brand, default=True):
   # Display car details from car brand selected
   # access: anyone
   # -------------------------
-  clear()
   cars = read_file("carlist.txt")
   car_model = [] # display models from car brand
 
@@ -546,46 +550,37 @@ def car_details(brand, default=True):
       if car[2] == brand:
         if car[-2] == False:
           car_model.append(car)
+  
+  header = ["ID", "Number Plate",  "Vehicle", "Seats", "Short Description", "Condition", "Owner", "Price Rate", "Rental Status"]
+  format_row = "{:^6}|{:^15}|{:^20}|{:^8}|{:^35}|{:^13}|{:^15}|{:^10}|{:^20}|"
+
+  print(format_row.format(*header))
+  print("-"*145)
 
   # display selected brand car model
   for i in car_model:
     id = i[0]
     num_plate = i[1]
-    brand = i[2]
-    model = i[3]
+    brand = i[2].capitalize()
+    model = i[3].capitalize()
     year = i[4]
+    vehicle = brand + " " + model + ", " + str(year)
     owner = i[5]
     condition = i[6]
-    desc = i[7]
+    desc = i[7][0:30] + "..."
     price_rate = i[8]
     seats = i[9]
     availability = i[10]
-    rent_by = i[11]
+    if availability:      
+      rent_by = i[11]
+      status = "Rented by " + str(rent_by[0])
+    if not availability:
+      status = "Not rented"
 
     float_price_rate = "{:.2f}".format(price_rate)
+      
 
-    print("-"*25)
-    print(f"ID: {id}")
-    print(f"Number Plate: {num_plate}")
-    print(f"Vehicle: {brand} {model}, {year}")
-    print(f"Total seats: {seats}")
-    print(f"Short Description: {desc}")
-    print(f"Owned by {owner}")
-    print(f"Condition: {condition}/10")
-    print(f"Price rate: RM{float_price_rate}/day")
-    if availability:
-      print(f"availability: No")
-    if not availability:
-      print(f"availability: Yes")
-    if rent_by:
-      if rent_by[0]:
-        username = rent_by[0]
-        start_date = rent_by[2]
-        duration = rent_by[1]
-        str_date = start_date[0:11]
-        print(f"currently rented by {username}\nRented since {str_date} for {duration} days")
-    print("-"*25)
-    print("\n")
+    print(format_row.format(id, num_plate, vehicle, seats, desc, condition, owner, float_price_rate, status))
 
   if len(car_model) == 0:
     print("Oops, nothing is here yet")
@@ -755,39 +750,29 @@ def rented_out():
 
   carlist = read_file("carlist.txt")
 
+  header = ["Number Plate",  "Vehicle", "Booked on",  "Expire on", "Owner", "Total Amount", "Rented By"]
+  format_row = "{:^20}|" * len(header)
+  print(format_row.format(*header))
+  print("-"*145)
   for car in carlist:
     if car[-2]:
       if len(car[-1]) > 0:
+        
         booking_details = car[-1]
         num_plate = car[1].upper()
-        brand = car[2]
-        model = car[3]
-        year = str(car[4])
+        vehicle = car[2].capitalize() + " " + car[3].capitalize() + ", " + str(car[4])
         owner = car[5]
-        condition = str(car[6])
-        desc = car[7]
         price_rate = car[8]
-        start_date = booking_details[2]
-        str_date = start_date[0:11]
-        end_date = booking_details[3]
-        str_enddate = end_date[0:11]
+        start_date = booking_details[2][0:11]
+        end_date = booking_details[3][0:11]
         username = booking_details[0]
         duration = booking_details[1]
 
         total_price = "{:.2f}".format(int(duration) * float(price_rate))
 
-        print("-"*20)
-        print(f"Booked on {str_date} for the duration of {duration} days\n")
-        print(f"Ends by {str_enddate}\n")
-        print(f"Vehicle: {brand} {model}, {year}")
-        print(f"Plate number: {num_plate}, owned by {owner}\n")
-        print(f"Condition: {condition}/10")
-        print(f"Description: {desc}\n")
-        print(f"Total price deducted from wallet: -RM{total_price}\n")
-        print(f"Rented by {username}")
-        print("-"*20, "\n")
+        print(format_row.format(num_plate, vehicle, start_date,end_date, owner, total_price, username))
 
-  end = input("<Enter> to go back...")
+  end = input("\n<Enter> to go back...")
   clear()
   return end
 
@@ -808,9 +793,13 @@ def rent_available():
     return ""
     
   while action[0] != "0":
+    clear()
+    print("-"*20)
+    print("Available vehicle")
+    print("-"*20, "\n")
     payload = int(action[0]) - 1
     car_details(action[1][payload], False)
-    input("Press Enter to quit: ")
+    input("\nPress Enter to quit: ")
     clear()
     break   
 
@@ -837,21 +826,27 @@ def customer_payment():
       print(f"Email: {email}")
       print("-"*15, "\n")
 
+      header = ["Number Plate",  "Vehicle", "Booked on",  "Expire on", "Duration", "Total Amount", "Rented By"]
+      format_row = "{:^20}|" * len(header)
+
+      print(format_row.format(*header))
+      print("-"*150)
+
       for data in user[-2]:
+        num_plate = data[1]
         start_date = data[-1][2][0:11]
         end_date = data[-1][3][0:11]
         duration = data[-1][1]
         vehicle = f"{data[2]} {data[3]}, {data[4]}"
         price_per_order = "{:.2f}".format(data[8] * int(duration))
-        print(f"{vehicle}")
-        print(f"Order booked on {start_date}for {duration} days")
-        print(f"Total spent: RM{price_per_order}")
-        print(f"Expire on {end_date}\n")
+        
+        print(format_row.format(num_plate, vehicle, start_date,end_date, duration + " days", "RM " + price_per_order, username))
 
         total_spent += float(price_per_order)
         
       str_spent = "{:.2f}".format(total_spent)
-      print(f"Total amount earned: {str_spent}\n")
+      print("-"*5)
+      print(f"Total amount earned: RM {str_spent}\n")
 
   end = input("<Enter> to go back...")
   clear()
@@ -866,6 +861,7 @@ def customer_query():
   for user in userlist: 
     usernames.append(user[0])
   usernames = list(set(usernames))
+  usernames.sort()
 
   print(f"Search by usernames:\n")
   count = 0
@@ -906,20 +902,24 @@ def customer_query():
           print(f"Username: {username}")
           print(f"Email: {email}")
           print("-"*15, "\n")
+          
+          header = ["Number Plate",  "Vehicle", "Booked on",  "Expire on", "duration", "Total Amount"]
+
+          format_row = "{:^20}|" * len(header)
+          print(format_row.format(*header))
+          print("-"*125)
           if len(user[-2]) > 0:
             for record in user[-2]:
+              
               start_date = record[-1][2][0:11]
               end_date = record[-1][3][0:11]
               duration = record[-1][1]
               vehicle = f"{record[2]} {record[3]}, {record[4]}"
-              num_plate = record[-1][0].upper()
-              price_per_order = "{:.2f}".format(record[8] * int(duration))
-              print(f"Number plate: {num_plate}")
-              print(f"{vehicle}")
-              print(f"Order booked on {start_date}for {duration} days")
-              print(f"Total spent: RM{price_per_order}")
-              print(f"Expire on {end_date}\n")
-      
+              num_plate = record[1].upper()
+              price_per_order = "RM " + "{:.2f}".format(record[8] * int(duration))
+
+              print(format_row.format(num_plate, vehicle, start_date,end_date,str(duration) + " days", price_per_order))
+          
     # query by username
     if len(selected_username) > 1:
         for user in userlist:
@@ -930,21 +930,24 @@ def customer_query():
             print(f"Username: {username}")
             print(f"Email: {email}")
             print("-"*15, "\n")
+            header = ["Number Plate",  "Vehicle", "Booked on",  "Expire on", "duration", "Total Amount"]
+
+            format_row = "{:^20}|" * len(header)
+            print(format_row.format(*header))
+            print("-"*125)
             if len(user[-2]) > 0:
               for record in user[-2]:
+                
                 start_date = record[-1][2][0:11]
                 end_date = record[-1][3][0:11]
                 duration = record[-1][1]
                 vehicle = f"{record[2]} {record[3]}, {record[4]}"
-                num_plate = record[-1][0].upper()
-                price_per_order = "{:.2f}".format(record[8] * int(duration))
-                print(f"Number plate: {num_plate}")
-                print(f"{vehicle}")
-                print(f"Order booked on {start_date}for {duration} days")
-                print(f"Total spent: RM{price_per_order}")
-                print(f"Expire on {end_date}\n")
+                num_plate = record[1].upper()
+                price_per_order = "RM " + "{:.2f}".format(record[8] * int(duration))
 
-    end = input("<Enter> to return")
+                print(format_row.format(num_plate, vehicle, start_date,end_date,str(duration) + " days", price_per_order))
+
+    end = input("\n<Enter> to return...")
     clear()
     return end
 
@@ -972,9 +975,14 @@ def main():
         break
 
       while action[0] != "0":
+        clear()
         payload = int(action[0]) - 1
-        car_details(brand=action[1][payload])
-        input("Press Enter to quit: ")
+        brand = action[1][payload]
+        print("-"*20)
+        print(brand)
+        print("-"*20, "\n")
+        car_details(brand=brand)
+        input("\nPress Enter to quit: ")
         clear()
         break       
 
