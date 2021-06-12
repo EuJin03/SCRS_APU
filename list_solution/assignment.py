@@ -497,6 +497,72 @@ def rent_car(id, current_user):
             return end
       break
 
+def assign_admin():
+  # -------------------------
+  # Assign a new user to be an administrator
+  # access: admin
+  # -------------------------
+  userlist = read_file("userlist.txt")
+
+  usernames = [] # list of registered usernames 
+
+  # display usernames
+  for user in userlist: 
+    if user[7] != "admin":
+      usernames.append(user[0])
+  usernames = list(set(usernames))
+  usernames.sort()
+
+  print("ASSIGN AN ADMINISTRATOR\n")
+
+  print(f"Search by usernames:\n")
+  count = 0
+  for names in usernames:
+    print(f"* {names}")
+    count+=1
+
+  print("\n<Enter> to return")
+  selected_username = input("\nType an username that are in the list: ")
+
+  # return
+  if selected_username == "":
+    return selected_username
+
+  # error handling
+  if selected_username.isnumeric():
+    print("Username does not exist...")
+    end = input("<Enter> to return")
+    clear()
+    return end
+
+  # error handling 2
+  if not selected_username.isnumeric() and not selected_username.lower() in usernames:
+      print("Username does not exist...")
+      end = input("<Enter> to return")
+      clear()
+      return end
+
+  for user in userlist:
+    if user[0] == selected_username:
+      confirmation = input(f"\nDo you wanna assign {user[0]} as an admin? [yes/No] ")
+
+      if confirmation.lower() == "yes":
+        user[7] = "admin"
+        write_file("userlist.txt", userlist) 
+        clear()
+        print("-"*30)  
+        print("SCRS MEMBER MANAGEMENT")
+        print("-"*30, "\n")  
+        print(f"{user[0]} has successfully promoted as an administrator for SUPER CAR RENTAL SYSTEM\n")
+        return input("<Enter> to return to admin menu...")
+      else:
+        return ""
+
+def display_feedback():
+  print("show feedbacks")
+
+def submit_feedback(current_user):
+  print("give a feedback")
 # ---------------------------------------------------------------------------------
 # CAR FUNCTIONS
 # ---------------------------------------------------------------------------------
@@ -872,7 +938,7 @@ def customer_query():
     print(f"{count}. {names}")
     count+=1
 
-  print("<Enter> to return")
+  print("\n<Enter> to return")
   selected_username = input("\nSelect an user by listed numbers or type the username: ")
 
   # return
@@ -965,8 +1031,13 @@ def main():
 
   # main page without login
   while len(current_user) == 0:
-    print('\n1. Login\n2. Register\n3. View Cars\n0. Quit')
+    print('\n1. Login\n2. Register\n3. View Cars\n4. Feedback/Suggestion\n\n0. Quit\n')
     option = input('Please select a choice: ')
+
+    while option == "4":
+      clear()
+      input("feedback ")
+      break
 
     while option == "3":
       clear()
@@ -1010,9 +1081,20 @@ def main():
   # admin interface
   while len(current_user) > 0 and current_user[0][7].lower() == "admin":
     clear()
-    print("Welcome ", current_user[0][0].capitalize(), "\n")
-    print("1. Add a Vehicle\n2. Modify a Vehicle\'s Details\n3. Update Personal Information\n4. Vehicle Rental Records\n5. Query Customer Record\n\n0. Logout\n")
+    print('-'*20)
+    print('Super Car Rental Service (SCRS)')
+    print('-'*20, "\n")
+    print("Welcome, " + current_user[0][0].capitalize(), "\n")
+    print("1. Add a Vehicle\n2. Modify a Vehicle\'s Details\n3. Update Personal Information\n4. Vehicle Rental Records\n5. Query Customer Record\n6. Assign a new administrator\n\n0. Logout\n")
     admin_option = input("Please enter your choice: ")
+
+    # Assign admin
+    while admin_option == "6":
+      clear()
+      end = assign_admin()
+
+      if end == "":
+        break
 
     # customer record query 
     while admin_option == "5":
@@ -1108,9 +1190,17 @@ def main():
   # customer interface
   while len(current_user) > 0 and current_user[0][7].lower() != "admin":
     clear()
-    print("Welcome", current_user[0][0].capitalize(), "\n")
-    print('1. Rent a Car\n2. Update Personal Information\n3. Rental History\n4. Check Wallet\n\n0. Logout\n')
+    print("-"*30)
+    print("SUPER CAR RENTAL SERVICE")
+    print("-"*30, "\n")
+    print("Welcome, " + current_user[0][0].capitalize() + "\n")
+    print('1. Rent a Car\n2. Update Personal Information\n3. Rental History\n4. Check Wallet\n5. Write a feedback\n\n0. Logout\n')
     user_option = input("Please enter your choice: ")
+
+    # feedback / suggestion
+    while user_option == "5":
+      input("feedback")
+      break
 
     # check wallet
     while user_option == "4":
@@ -1163,7 +1253,7 @@ def main():
         clear()
         payload = int(action[0]) - 1
         car_details(brand=action[1][payload])
-        vehicle_id = input("Select vehicle ID to rent or <Enter> to go back: ")
+        vehicle_id = input("\nSelect vehicle ID to rent or <Enter> to go back: ")
 
         while len(vehicle_id) > 0:
           clear()
@@ -1174,7 +1264,9 @@ def main():
 
           try:
             if status[0]:
-              print(status[1])   
+              print("\n", "-"*30)
+              print(status[1])  
+              print("-"*30, "\n") 
               retry = input("Please select other car available for rent. <Enter> to continue")
               if retry == "":
                 clear()
