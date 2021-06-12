@@ -683,7 +683,7 @@ def select_car(callback):
     clear()
     payload = int(action[0]) - 1
     car_details(brand=action[1][payload])
-    vehicle_id = input("Select vehicle ID to modify or <Enter> to go back: ")
+    vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
 
     while len(vehicle_id) > 0:
       clear()
@@ -705,35 +705,38 @@ def rental_history(current_user):
   # -------------------------
   clear()
   userlist = read_file("userlist.txt")
-
+  print("-"*25)
+  print(f"{current_user[0][0]}'s Rental History")
+  print("-"*25, "\n")
   for user in userlist:
     if user[0] == current_user[0][0]:
-      if len(user[-2]) == 0:
-        print("\nStart placing order today for exclusive discounts!\n")
+      if len(user[6]) == 0:
+        print("Start placing order today for exclusive discounts!\n")
         return input("<Enter> to return back to home page...")
 
-      for rent in user[-2]:
+      header = ["Number Plate",  "Vehicle", "Booked on",  "Expire on", "Duration", "Total Amount"]
+      format_row = "{:^20}|" * len(header)
+
+      print(format_row.format(*header))
+      print("-"*125)
+      for rent in user[6]:
+        num_plate = rent[1].upper()
         brand = rent[2].capitalize()
         model = rent[3].capitalize()
         year = rent[4]
+        vehicle = brand + " " + model + ", " + str(year)
         price_rate = rent[8]
-        start_date = rent[-1][2]
-        end_date = rent[-1][3]
+        start_date = rent[-1][2][0:11]
+        end_date = rent[-1][3][0:11]
         duration = rent[-1][1]
-        str_date = start_date[0:11]
-        str_enddate = end_date[0:11]
 
-        total_price = "{:.2f}".format(float(price_rate) * int(duration))
+        price_per_order = "{:.2f}".format(float(price_rate) * int(duration))
 
-        print("-"*20)
-        print(f"\nBooked on {str_date} for the duration of {duration} days\n")
-        print(f"Ends by {str_enddate}\n")
-        print(f"Vehicle: {brand} {model}, {year}\n")
-        print(f"Total price deducted from wallet: -RM{total_price}\n")
-        print("-"*20, "\n")
+        print(format_row.format(num_plate, vehicle, start_date,end_date,str(duration) + " days", "RM " + price_per_order))
       break
 
-  end = input("<Enter> to return back to home page...")
+
+  end = input("\n<Enter> to return back to home page...")
   clear()
   return end
 
@@ -816,7 +819,7 @@ def customer_payment():
   userlist = read_file("userlist.txt")
 
   for user in userlist:
-    if len(user[-2]) > 0:
+    if len(user[6]) > 0:
       username = user[0]
       email = user[1]
       total_spent = 0
@@ -832,7 +835,7 @@ def customer_payment():
       print(format_row.format(*header))
       print("-"*150)
 
-      for data in user[-2]:
+      for data in user[6]:
         num_plate = data[1]
         start_date = data[-1][2][0:11]
         end_date = data[-1][3][0:11]
@@ -908,8 +911,8 @@ def customer_query():
           format_row = "{:^20}|" * len(header)
           print(format_row.format(*header))
           print("-"*125)
-          if len(user[-2]) > 0:
-            for record in user[-2]:
+          if len(user[6]) > 0:
+            for record in user[6]:
               
               start_date = record[-1][2][0:11]
               end_date = record[-1][3][0:11]
@@ -935,8 +938,8 @@ def customer_query():
             format_row = "{:^20}|" * len(header)
             print(format_row.format(*header))
             print("-"*125)
-            if len(user[-2]) > 0:
-              for record in user[-2]:
+            if len(user[6]) > 0:
+              for record in user[6]:
                 
                 start_date = record[-1][2][0:11]
                 end_date = record[-1][3][0:11]
@@ -950,7 +953,6 @@ def customer_query():
     end = input("\n<Enter> to return...")
     clear()
     return end
-
 # ---------------------------------------------------------------------------------
 # USER INTERFACE
 # ---------------------------------------------------------------------------------
@@ -1006,7 +1008,7 @@ def main():
       break
 
   # admin interface
-  while len(current_user) > 0 and current_user[0][-1].lower() == "admin":
+  while len(current_user) > 0 and current_user[0][7].lower() == "admin":
     clear()
     print("Welcome ", current_user[0][0].capitalize(), "\n")
     print("1. Add a Vehicle\n2. Modify a Vehicle\'s Details\n3. Update Personal Information\n4. Vehicle Rental Records\n5. Query Customer Record\n\n0. Logout\n")
@@ -1104,7 +1106,7 @@ def main():
       break  
 
   # customer interface
-  while len(current_user) > 0 and current_user[0][-1].lower() != "admin":
+  while len(current_user) > 0 and current_user[0][7].lower() != "admin":
     clear()
     print("Welcome", current_user[0][0].capitalize(), "\n")
     print('1. Rent a Car\n2. Update Personal Information\n3. Rental History\n4. Check Wallet\n\n0. Logout\n')
