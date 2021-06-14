@@ -683,6 +683,9 @@ def display_brand():
     while True:
       num = input("Select a model: ")
 
+      if not num.isnumeric():
+        break
+
       if int(num) <= count:
         break
 
@@ -850,6 +853,9 @@ def select_car(callback):
 
     while True:
       vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
+
+      if not vehicle_id.isnumeric():
+        break
 
       if int(vehicle_id) <= latest_id:
         break
@@ -1375,6 +1381,9 @@ def main():
         while True:
           latest_id = vehicle_number()
           vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
+
+          if not vehicle_id.isnumeric():
+            break
 
           if int(vehicle_id) <= latest_id:
             break
