@@ -421,7 +421,7 @@ def modify_wallet(current_user):
   # access: anyone
   # -------------------------
   clear()
-  balance = current_user[0][-3]
+  balance = current_user[0][5]
   decimal_balance = "{:.2f}".format(balance)
   print(f"Your total balance remaining: RM{decimal_balance}\n")
   print("1. Add fund\n<Enter> to Quit\n")
@@ -474,7 +474,7 @@ def rent_car(id, current_user):
 
       confirmation = input("Do you want to confirm order? [yes/No]: ")
       if confirmation.lower() == "no":
-        return
+        return ""
       duration = input("How many days would you like to rent? ")
 
       while confirmation.lower() == "yes":
