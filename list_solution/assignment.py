@@ -226,8 +226,7 @@ def field_control(field_text, type, wildcard="404"):
       else:
         break
 
-
-  return field_input
+  return field_input  
 
 def rental_expire():
   # -------------------------
@@ -558,7 +557,7 @@ def assign_admin():
       else:
         return ""
 
-def display_feedback(current_user=[[]]):
+def display_feedback(current_user=[]):
   # -------------------------
   # Display feedbacks by customers that has used our service
   # access: everyone
@@ -583,12 +582,12 @@ def display_feedback(current_user=[[]]):
 
       print(format_row.format(username, "✰ "*rating, feedback))
 
-  if len(current_user[0]) > 0:
-    while len(current_user[0][6]) != 0 and len(current_user[0]) == 8:
-      choice = submit_feedback(current_user[0][0])
+  if len(current_user) > 0:
+    while len(current_user[6]) != 0 and len(current_user) == 8:
+      choice = submit_feedback(current_user[0])
 
       if len(choice[1]) > 0:
-        current_user[0] = choice[1]
+        current_user = choice[1]
       if choice[0] == "":
         break
       
@@ -603,7 +602,7 @@ def submit_feedback(username):
   # access: customer that used SCRS at least once
   # -------------------------
   userlist = read_file("userlist.txt")
-  submission = input("\nDo you want to submit your own feedback or provide any suggestions? [yes/No]")
+  submission = input("\nDo you want to submit your own feedback or provide any suggestions? [yes/No] ")
 
   if submission.lower() == "yes":
     clear()
@@ -1102,9 +1101,9 @@ def customer_query():
 def main():
   current_user = []
   clear()
-  print('-'*20)
+  print('-'*30)
   print('Super Car Rental Service (SCRS)')
-  print('-'*20)
+  print('-'*30)
 
   # main page without login
   while len(current_user) == 0:
@@ -1286,9 +1285,9 @@ def main():
     # feedback / suggestion
     while user_option == "5":
       clear()
-      choice = display_feedback(current_user)
+      choice = display_feedback(current_user[0])
       if len(choice[1]) > 0:
-        current_user = choice[1]
+        current_user[0] = choice[1]
 
       if choice[0] == "":
         break
