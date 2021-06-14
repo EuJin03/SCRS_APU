@@ -48,13 +48,8 @@
     "Cheap because it is made in Malaysia",
     5.0,
     5,
-    true,
-    [
-      "jesse",
-      "1",
-      "2021-06-13 15:09:51.645678",
-      "2021-06-14 15:09:51.645678"
-    ]
+    false,
+    false
   ],
   [
     0,
@@ -67,25 +62,62 @@
     "Looks new",
     10.0,
     5,
-    true,
-    [
-      "jesse",
-      "1",
-      "2021-06-13 15:10:46.135738",
-      "2021-06-14 15:10:46.135738"
-    ]
+    false,
+    false
   ],
   [
     4,
-    "404",
-    "404",
-    "404",
-    404,
-    "404",
-    404.0,
-    "404",
-    404.0,
-    404,
+    "WPL5417",
+    "Nissan",
+    "Gtr",
+    2005,
+    "Eugene",
+    9.0,
+    "Vroom vvroom",
+    2000.0,
+    5,
+    false,
+    false
+  ],
+  [
+    6,
+    "XYZ1234",
+    "Perodua",
+    "Axia",
+    2000,
+    "Wen xuen",
+    6.0,
+    "A very small car",
+    20.0,
+    5,
+    false,
+    false
+  ],
+  [
+    7,
+    "ZXC1234",
+    "Toyota",
+    "Vellfire",
+    2995,
+    "Eugene",
+    10.0,
+    "Big spacious",
+    100.0,
+    8,
+    false,
+    false
+  ],
+  [
+    5,
+    "QWE 1245",
+    "Perodua",
+    "Myvi",
+    2005,
+    "Kelvin",
+    1.0,
+    "Bad",
+    5.0,
+    5,
     false,
     false
   ]

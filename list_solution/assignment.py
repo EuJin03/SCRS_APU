@@ -694,10 +694,10 @@ def car_details(brand, default=True):
           car_model.append(car)
   
   header = ["ID", "Number Plate",  "Vehicle", "Seats", "Short Description", "Condition", "Owner", "Price Rate", "Rental Status"]
-  format_row = "{:^6}|{:^15}|{:^20}|{:^8}|{:^35}|{:^13}|{:^15}|{:^10}|{:^20}|"
+  format_row = "{:^6}|{:^15}|{:^30}|{:^8}|{:^35}|{:^13}|{:^10}|{:^10}|{:^16}|"
 
   print(format_row.format(*header))
-  print("-"*145)
+  print("-"*155)
 
   # display selected brand car model
   for i in car_model:
@@ -751,13 +751,16 @@ def add_car():
 
   carlist = read_file("carlist.txt")
 
+  if str(num_plate) == "404":
+    return ""
+
   latest_id = 0
 
   for car in carlist:
     if car[0] > latest_id:
-      latest_id = car[0] + 1
+      latest_id = car[0] 
 
-  new_car = [int(latest_id), num_plate, brand.capitalize(), model.capitalize(), int(year), owner.capitalize(), float(condition), desc, float(price_rate), int(seats), False, False]
+  new_car = [int(latest_id) + 1, num_plate.upper(), brand.capitalize().rstrip(), model.capitalize().rstrip(), int(year), owner.capitalize().rstrip(), float(condition), desc, float(price_rate), int(seats), False, False]
 
   carlist.append(new_car)
 
