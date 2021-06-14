@@ -818,6 +818,8 @@ def select_car(callback):
   print("SCRS Vehicle Management")
   print("-"*20, "\n")
 
+  carlist = read_file("carlist.txt")
+
   action = display_brand()
 
   if action[0] == "0":
@@ -828,7 +830,19 @@ def select_car(callback):
     clear()
     payload = int(action[0]) - 1
     car_details(brand=action[1][payload])
-    vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
+    latest_id = 0
+
+    for car in carlist:
+      if car[0] > latest_id:
+        latest_id = car[0]
+
+    while True:
+      vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
+
+      if int(vehicle_id) <= latest_id:
+        break
+
+      print("Id does not exist, please try again\n")
 
     while len(vehicle_id) > 0:
       clear()
