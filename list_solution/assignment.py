@@ -243,6 +243,18 @@ def rental_expire():
         write_file("carlist.txt", carlist)       
         return
 
+def vehicle_number():
+  # -------------------------
+  # read the latest car id in the file
+  # -------------------------
+  carlist = read_file("carlist.txt")
+  latest_id = 0
+
+  for car in carlist:
+    if car[0] > latest_id:
+      latest_id = car[0]
+  
+  return latest_id
 # ---------------------------------------------------------------------------------
 # USER FUNCTIONS
 # ---------------------------------------------------------------------------------
@@ -274,7 +286,7 @@ def login(username, password):
 
   err = True
   for user in userlist:
-    if user[0] == username:
+    if user[0] == username.lower():
       if user[2] == hash_password(password):
         err = False
         clear()
@@ -667,7 +679,15 @@ def display_brand():
       count+=1
 
     print("\n0. Go back to home page")
-    num = input("Select a model: ")
+    
+    while True:
+      num = input("Select a model: ")
+
+      if int(num) <= count:
+        break
+
+      print("Model does not exist, please try again")
+
 
     if num.isnumeric() and num < str(count):
       break
@@ -754,11 +774,7 @@ def add_car():
   if str(num_plate) == "404":
     return ""
 
-  latest_id = 0
-
-  for car in carlist:
-    if car[0] > latest_id:
-      latest_id = car[0] 
+  latest_id = vehicle_number()
 
   new_car = [int(latest_id) + 1, num_plate.upper(), brand.capitalize().rstrip(), model.capitalize().rstrip(), int(year), owner.capitalize().rstrip(), float(condition), desc, float(price_rate), int(seats), False, False]
 
@@ -830,11 +846,7 @@ def select_car(callback):
     clear()
     payload = int(action[0]) - 1
     car_details(brand=action[1][payload])
-    latest_id = 0
-
-    for car in carlist:
-      if car[0] > latest_id:
-        latest_id = car[0]
+    latest_id = vehicle_number()
 
     while True:
       vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
@@ -1359,7 +1371,15 @@ def main():
         clear()
         payload = int(action[0]) - 1
         car_details(brand=action[1][payload])
-        vehicle_id = input("\nSelect vehicle ID to rent or <Enter> to go back: ")
+      
+        while True:
+          latest_id = vehicle_number()
+          vehicle_id = input("\nSelect vehicle ID to modify or <Enter> to go back: ")
+
+          if int(vehicle_id) <= latest_id:
+            break
+
+          print("Id does not exist, please try again\n")
 
         while len(vehicle_id) > 0:
           clear()
