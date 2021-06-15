@@ -1,6 +1,6 @@
 # SCRS_APU
 
-Online Car Rental System created using python 
+Online Car Rental System created using python
 
 ## Installation
 
@@ -10,22 +10,25 @@ git clone https://github.com/EuJin03/SCRS_APU.git
 
 ## Usage
 
-1. redirect into either list_solution folder or dictionary_solution folder 
-2. Launch the assignment.py file 
-
+1. redirect into src folder
+2. Launch the assignment.py file
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Project Status
-* Ongoing
-* additional features to be include
+
+- Ongoing
+- additional features to be include
   1. assign admin
   2. forgot password
   3. limit displayed data and split it into several pages
   4. User able to manually return vehicle before deadline and extend rental date
+- tabulate displayed data
